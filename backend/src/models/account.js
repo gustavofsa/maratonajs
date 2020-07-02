@@ -11,6 +11,10 @@ module.exports = (sequelize, DataTypes) => {
     },
   });
 
+  Account.associate = (models) => {
+    Account.hasMany(models.Link, { foreignKey: 'accountId' });
+  }
+
   Account.prototype.toJSON = function () {
     const values = { ...this.get() };
 
@@ -20,4 +24,4 @@ module.exports = (sequelize, DataTypes) => {
   }
 
   return Account;
-}
+};
