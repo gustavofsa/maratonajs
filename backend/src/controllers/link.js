@@ -5,14 +5,14 @@ const { Link } = require('../models');
 const router = express.Router();
 
 router.get('/', async (req, res) => {
-  const accountId = 5;
+  const { accountId } = req;
   const links = await Link.findAll({ where: { accountId } });
 
   return res.jsonOK(links);
 });
 
 router.get('/:id', async (req, res) => {
-  const accountId = 5;
+  const { accountId } = req;
   const { id } = req.params;
   const link = await Link.findOne({ where: { id, accountId } });
   if (!link) return res.jsonNotFound();
@@ -21,8 +21,8 @@ router.get('/:id', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-  const accountId = 5; // req.id 
-  const { label, url, image, isSocial } = req.body;
+  const { accountId, body } = req;
+  const { label, url, image, isSocial } = body;
 
   const link = await Link.create({ label, url, image, isSocial, accountId });
 
@@ -30,9 +30,8 @@ router.post('/', async (req, res) => {
 });
 
 router.put('/:id', async (req, res) => {
+  const { accountId, body } = req;
   const { id } = req.params;
-  const accountId = 5;
-  const { body } = req;
 
   const fields = ['label', 'url', 'image', 'isSocial'];
 
@@ -51,7 +50,7 @@ router.put('/:id', async (req, res) => {
 });
 
 router.delete('/:id', async (req, res) => {
-  const accountId = 5;
+  const { accountId } = req;
   const { id } = req.params;
   const link = await Link.findOne({ where: { id, accountId } });
   if (!link) return res.jsonNotFound();
